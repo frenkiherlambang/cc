@@ -65,7 +65,7 @@ services:
     build: ./.docker/php
     volumes:
       - ./src/ewallet:/var/www/php/ewallet
-    command: bash -c "composer install && composer dump-autoload && php artisan migrate:fresh --seed && npm install && npm run build"
+    command: bash -c "composer install && composer dump-autoload && php artisan migrate --seed && npm install && npm run build"
     working_dir: /var/www/php/ewallet
     depends_on:
       - php

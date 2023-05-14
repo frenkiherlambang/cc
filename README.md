@@ -1,6 +1,6 @@
 # CollectiveBank Web App Documentation
 
-CollectiveBank is a web application built with the Laravel framework. It is developed for the "Coding Collective" coding interview. The application utilizes PHP, Nginx, MySQL, and WebSockets for asynchronous notifications. This document provides an overview of the web app.
+CollectiveBank is a web application built with the Laravel framework. It utilizes PHP, Nginx, MySQL, and WebSockets for asynchronous notification functionality. The application includes a [PaymentService](https://github.com/frenkiherlambang/cc/blob/master/src/ewallet/app/Services/PaymentService.php)  that showcases integration with a simulated third-party service for deposit and withdrawal processes. The bearer token used for authentication with the third-party service is generated using the base64 encoding of the developer's full name, "Frenki Herlambang Prasetyo". The web app incorporates [Laravel Livewire](https://laravel-livewire.com) for user interaction.
 
 The Docker Compose configuration defines the following services:
 
