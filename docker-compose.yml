@@ -1,8 +1,7 @@
 version: '3.8'
 
-# Services
+# Service
 services:
-
   # Nginx Service
   nginx:
     image: nginx:1.21
@@ -19,9 +18,22 @@ services:
     working_dir: /var/www/php
     volumes:
       - ./src:/var/www/php
+      - ./supervisor:/etc/supervisor/conf.d
+      - ./src/ewallet/storage/logs:/var/www/php/ewallet/storage/logs
     ports:
       - 3000:3000
-      
+  # Laravel Horizon Service
+  laravel-horizon:
+    build:
+      context: ./.docker/laravel-horizon
+    volumes:
+      - ./src:/var/www/php
+      - ./.docker/laravel-horizon/supervisord.d:/etc/supervisord.d
+    ports:
+      - 6001:6001
+    depends_on:
+      - php
+
   # MySQL Service
   mysql:
     image: mysql/mysql-server:8.0
@@ -31,7 +43,7 @@ services:
       MYSQL_DATABASE: demo
     volumes:
       - ./.docker/mysql/my.cnf:/etc/mysql/my.cnf
-      - mysqldata:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
       interval: 5s
@@ -39,7 +51,21 @@ services:
     ports:
       - 3305:3306
 
-# Volumes
-volumes:
-  mysqldata:
-   driver: local
+  # Redis Service
+  redis:
+    image: redis:alpine
+    container_name: redis
+    command: redis-server --requirepass secret
+    volumes:
+    - ./data/redis:/data
+    ports:
+      - "6379:6379"
+
+  composer:
+    build: ./.docker/php
+    volumes:
+      - ./src/ewallet:/var/www/php/ewallet
+    command: bash -c "composer install && composer dump-autoload && php artisan migrate:fresh --seed && npm install && npm run build"
+    working_dir: /var/www/php/ewallet
+    depends_on:
+      - php

@@ -33,16 +33,23 @@ Route::post('deposit', function (Request $request) {
         'amount' => $request->input('amount'),
         'status' => 1,
     ];
-    $orderId = $request->input('order_id');
-    $amount = $request->input('amount');
-    $timestamp = $request->input('timestamp');
 
-    // Process the deposit request
-    // ...
+});
 
-    // Return a response
+Route::post('withdrawal', function (Request $request) {
+
+    // check if bearer token is valid
+    if ($request->bearerToken() !== base64_encode('Frenki Herlambang Prasetyo')) {
+        return [
+            'status' => 'error',
+            'message' => 'Unauthorized',
+        ];
+    }
+
     return [
-        'status' => 'success',
-        'message' => 'Deposit successful',
+        'order_id' => $request->input('order_id'),
+        'amount' => $request->input('amount'),
+        'status' => 1,
     ];
+
 });

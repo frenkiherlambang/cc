@@ -1,5 +1,6 @@
 FROM php:8.1-fpm
 
+
 ENV COMPOSER_MEMORY_LIMIT='-1'
 RUN apt-get install curl
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
@@ -147,6 +148,5 @@ WORKDIR /var/www
 # RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 # RUN ln -s /usr/local/bin/docker-entrypoint.sh /
 # ENTRYPOINT ["docker-entrypoint.sh"]
-
 EXPOSE 9000
 CMD ["php-fpm"]

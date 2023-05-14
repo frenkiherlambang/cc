@@ -33,7 +33,29 @@ class PaymentServiceTest extends TestCase
 
          $this->assertArrayHasKey('status', $result);
          $this->assertEquals(1, $result['status']);
+    }
 
+    public function testWithdrawal(): void
+    {
+         Http::fake([
+            'https://nginx/*' => Http::response([
+                'order_id' => '123456789',
+                'amount' => 5000.00,
+                'status' => 1,
+            ], 200),
+        ]);
 
+         // Create an instance of the PaymentService
+         $paymentService = new PaymentService('Frenki Herlambang Prasetyo');
+
+         // Perform the deposit
+         $orderId = '123456789';
+         $amount = 5000.00;
+         $timestamp = time();
+
+         $result = $paymentService->withdrawal($orderId, $amount, $timestamp);
+
+         $this->assertArrayHasKey('status', $result);
+         $this->assertEquals(1, $result['status']);
     }
 }

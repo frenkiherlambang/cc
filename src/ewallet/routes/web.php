@@ -1,6 +1,8 @@
 <?php
 
+use App\Events\ExampleEvent;
 use Illuminate\Http\Request;
+use App\Models\BalanceHistory;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 
