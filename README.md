@@ -39,3 +39,9 @@ To run the CollectiveBank web app, follow these steps:
 8. If the database migrations and seeding were successful, you should be able to interact with the web app and explore its features.
 
 9. To stop the containers, press `Ctrl + C` in the terminal where the `docker-compose up` command was executed.
+
+ I have added the following user account for testing purposes:
+
+- Email: test@collectivebank.com
+- Password: `password`
+
